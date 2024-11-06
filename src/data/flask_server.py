@@ -15,7 +15,7 @@ def get_db_connection():
         print("Error connecting to the database:", e)
         raise
 
-@app.route('/log_time', methods=['POST'])
+@app.route('/time_tracking', methods=['POST'])
 def log_time():
     # Parse JSON data from the request
     data = request.get_json()
