@@ -1,0 +1,20 @@
+==================================================
+          Time Tracking Report
+==================================================
+
+Report for the period: 2024-11-01 to 2024-11-05
+
+Consultant Name           Customer Name               Total Hours Worked
+--------------------------------------------------
+Alice Cooper              Client A                   14 hours 30 minutes
+Alice Cooper              Client C                    7 hours 33 minutes
+Alice Cooper              Client D                    7 hours 42 minutes
+Bob Marley                Client B                   15 hours 53 minutes
+Bob Marley                Client C                    8 hours 50 minutes
+Janis Joplin              Client B                    7 hours 19 minutes
+Janis Joplin              Client C                    7 hours 53 minutes
+Janis Joplin              Client D                    8 hours 41 minutes
+
+==================================================
+End of Report
+==================================================
