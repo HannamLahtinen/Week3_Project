@@ -1,13 +1,22 @@
-from configparser import ConfigParser
+from azure.identity import DefaultAzureCredential
+from azure.keyvault.secrets import SecretClient
 
-def config(filename='database.ini', section='azure_postgresql'):
-    parser = ConfigParser()
-    parser.read(filename)
-    db= {}
-    if parser.has_section(section):
-        params = parser.items(section)
-        for param in params:
-            db[param[0]] = param[1]
-    else:
-        raise Exception('Section {0} not found in the {1} file'.format(section, filename))
-    return db
+def config(vault_url='https://{key_vault_name}.vault.azure.net/'):
+    if not vault_url:
+        raise ValueError("url must be specified")
+    credential = DefaultAzureCredential()
+    client = SecretClient(vault_url=vault_url, credential=credential)
+
+
+    database = {}
+    try:
+        database['host'] = client.get_secret("database-host").value
+        database['database'] = client.get_secret("database-name").value
+        database['user'] = client.get_secret("database-user").value
+        database['password'] = client.get_secret("database-password").value
+        database['port'] = client.get_secret("database-port").value
+        database['sslmode'] = client.get_secret("database-sslmode").value
+    except Exception as e:
+        raise Exception(f"Failed to retrieve secrets from the key vault: {e}")
+    
+    return database
