@@ -1,21 +1,16 @@
-from azure.identity import DefaultAzureCredential
-from azure.keyvault.secrets import SecretClient
+from service_principal import get_secret
 
-def config(vault_url='https://{key_vault_name}.vault.azure.net/'):
-    if not vault_url:
-        raise ValueError("url must be specified")
-    credential = DefaultAzureCredential()
-    client = SecretClient(vault_url=vault_url, credential=credential)
-
-
+def config():
+   
     database = {}
     try:
-        database['host'] = client.get_secret("database-host").value
-        database['database'] = client.get_secret("database-name").value
-        database['user'] = client.get_secret("database-user").value
-        database['password'] = client.get_secret("database-password").value
-        database['port'] = client.get_secret("database-port").value
-        database['sslmode'] = client.get_secret("database-sslmode").value
+       
+        database['host'] = get_secret("database-host")
+        database['database'] = get_secret("database-name")
+        database['user'] = get_secret("database-user")
+        database['password'] = get_secret("database-password")
+        database['port'] = get_secret("database-port")
+        database['sslmode'] = get_secret("database-sslmode")
     except Exception as e:
         raise Exception(f"Failed to retrieve secrets from the key vault: {e}")
     
