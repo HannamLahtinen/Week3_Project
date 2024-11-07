@@ -3,7 +3,8 @@ import psycopg2
 from datetime import datetime
 from azure.identity import DefaultAzureCredential
 from azure.storage.blob import BlobServiceClient
-
+from flask import Flask, request, jsonify
+app = Flask(__name__)
 
 def connect_to_postgresql():
     conn = psycopg2.connect(
@@ -115,9 +116,35 @@ def main():
     finally:
         conn.close()
 
+@app.route('/report', methods=['POST'])
+def generate_report_from_trigger():
+    data = request.get_json()
+
+    start_date = data.get("start_date")
+    end_date = data.get("end_date")
+   
+
+    if not start_date or not end_date:
+        return jsonify({"error": "Please write start date and end date for the report"}), 400
+
+    try:
+        start_date = datetime.strptime(start_date, "%Y-%m-%d")
+        end_date = datetime.strptime(end_date, "%Y-%m-%d")
+    except ValueError:
+        return jsonify({"error": "Invalid date format"}), 400
+    
+    conn = connect_to_postgresql()
+    try:
+        records = fetch_time_tracking_data(conn, start_date, end_date)
+        file_path = generate_report(records, start_date, end_date)
+        upload_to_blob_storage(file_path)
+        return jsonify({"Success": "Report generated and uploaded successfully to Blob Storage."}), 200
+
+    finally:
+        conn.close()
 
 if __name__ == "__main__":
-    main()
+    app.run(debug=True)
 
 
 
