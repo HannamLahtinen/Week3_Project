@@ -1,13 +1,17 @@
-from configparser import ConfigParser
+from service_principal import get_secret
 
-def config(filename='database.ini', section='azure_postgresql'):
-    parser = ConfigParser()
-    parser.read(filename)
-    db= {}
-    if parser.has_section(section):
-        params = parser.items(section)
-        for param in params:
-            db[param[0]] = param[1]
-    else:
-        raise Exception('Section {0} not found in the {1} file'.format(section, filename))
-    return db
+def config():
+   
+    database = {}
+    try:
+       
+        database['host'] = get_secret("database-host")
+        database['database'] = get_secret("database-name")
+        database['user'] = get_secret("database-user")
+        database['password'] = get_secret("database-password")
+        database['port'] = get_secret("database-port")
+        database['sslmode'] = get_secret("database-sslmode")
+    except Exception as e:
+        raise Exception(f"Failed to retrieve secrets from the key vault: {e}")
+    
+    return database
