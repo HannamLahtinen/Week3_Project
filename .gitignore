@@ -1,2 +1,4 @@
 src/data/database.ini
+src/data/config.py
+src/data/service_principal.py
 venv/
