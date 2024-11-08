@@ -61,5 +61,11 @@ def log_time():
 
 
 
+
+# 3. Fill in to the employee_balance table based on entries fetched from Postman.
+# def employee_balance(conn):
+    
+
+
 if __name__ == '__main__':
     app.run(debug=False)
