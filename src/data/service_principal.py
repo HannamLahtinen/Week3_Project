@@ -12,5 +12,8 @@ def get_secret(secret_name):
         # Get the secret by name from Azure Key Vault
         retrieved_secret = client.get_secret(secret_name)
         return retrieved_secret.value  # Return the value of the secret
+        
     except Exception as e:
         raise Exception(f"Error retrieving secret '{secret_name}': {e}")
+
+
