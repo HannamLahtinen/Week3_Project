@@ -38,14 +38,14 @@ def generate_report(records, start_date, end_date):
     file_path = os.path.join(report_directory, filename)
     
     with open(file_path, 'w') as file:
-        file.write(f"{'='*50}\n")
-        file.write(f"          Time Tracking Report\n")
-        file.write(f"{'='*50}\n\n")
+        file.write(f"{'='*100}\n")
+        file.write(f"Time Tracking Report\n")
+        file.write(f"{'='*100}\n\n")
         file.write(f"Report for the period: {start_date_str} to {end_date_str}\n\n")
         
         # work_date
         file.write(f"{'Consultant Name':<25} {'Customer Name':<25} {'Total Hours Worked':<25} {'Date':>20}\n")
-        file.write(f"{'-'*50}\n")  
+        file.write(f"{'-'*100}\n")  
 
         for record in records:
             # work_date
@@ -59,9 +59,9 @@ def generate_report(records, start_date, end_date):
             # work_date
             file.write(f"{consultant_name:<25} {customer_name:<25} {total_time_str:<25} {work_date.strftime('%Y-%m-%d'):>20}\n")
         
-        file.write(f"\n{'='*50}\n")
+        file.write(f"\n{'='*100}\n")
         file.write(f"End of Report\n")
-        file.write(f"{'='*50}\n")
+        file.write(f"{'='*100}\n")
     
     return file_path
 
